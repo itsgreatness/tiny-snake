@@ -25,6 +25,7 @@ javascript: (function () {
         window.popup = document.createElement("div");
         window.popup.id = "game";
         let isDown = false;
+        window.popup.style.all = "initial";
         window.popup.style.display = "inline-block";
         window.popup.style.position = "absolute";
         window.popup.style.left = "0px";
@@ -33,7 +34,6 @@ javascript: (function () {
         window.popup.style.padding = "0px 0px 0px 0px";
         window.popup.style.zIndex = 9999;
         window.popup.tabIndex = 0;
-        window.popup.style.all = "initial";
 
         window.popup.addEventListener('mousedown', function (e) {
             isDown = true;
