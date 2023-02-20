@@ -8,4 +8,5 @@ anyway heres a [bookmarklet](javascript%3A%21function%28%29%7Bif%28%22boolean%22
 
 # dev tools
 [js minifier](https://www.digitalocean.com/community/tools/minify)
+
 [url encoder](https://www.urlencoder.org)
