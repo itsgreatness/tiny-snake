@@ -120,42 +120,37 @@ javascript: (function () {
         container === null || container === void 0 ? void 0 : container.appendChild(canvas);
         var context = canvas.getContext("2d");
         window.addEventListener("keydown", function (e) {
-            if (!PAUSED) {
-                var target = (function () {
-                    switch (e.key.toLowerCase()) {
-                        case "arrowdown":
-                            e.preventDefault();
-                            return 2;
-                        case "s":
-                            return 2;
-                        case "arrowup":
-                            e.preventDefault();
-                            return 0;
-                        case "w":
-                            return 0;
-                        case "arrowleft":
-                            e.preventDefault();
-                            return 3;
-                        case "a":
-                            return 3;
-                        case "arrowright":
-                            e.preventDefault();
-                            return 1;
-                        case "d":
-                            return 1;
-                        case "enter":
-                            attemptRestart();
-                            break;
-                    }
-                })();
-                if ((head + 3) % 4 == target || (head + 5) % 4 == target) {
-                    head = target;
-                } else {
-                    head = head;
+            var target = (function () {
+                switch (e.key.toLowerCase()) {
+                    case "arrowdown":
+                        e.preventDefault();
+                        return PAUSED ? head : 2;
+                    case "s":
+                        return PAUSED ? head : 2;
+                    case "arrowup":
+                        e.preventDefault();
+                        return PAUSED ? head : 0;
+                    case "w":
+                        return PAUSED ? head : 0;
+                    case "arrowleft":
+                        e.preventDefault();
+                        return PAUSED ? head : 3;
+                    case "a":
+                        return PAUSED ? head : 3;
+                    case "arrowright":
+                        e.preventDefault();
+                        return PAUSED ? head : 1;
+                    case "d":
+                        return PAUSED ? head : 1;
+                    case "enter":
+                        attemptRestart();
+                        return head;
                 }
-            }
-            if (e.key.toLowerCase() == "enter") {
-                attemptRestart();
+            })();
+            if ((head + 3) % 4 == target || (head + 5) % 4 == target) {
+                head = target;
+            } else {
+                head = head;
             }
         });
         var draw = function () {
