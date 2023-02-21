@@ -224,6 +224,7 @@ javascript: (function () {
         };
         /* #endregion */
 
+        requestAnimationFrame(draw);
         toggleModal();
     } else {
         window.active = !window.active;
