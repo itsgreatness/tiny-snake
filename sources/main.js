@@ -27,7 +27,7 @@ javascript: (function () {
         let isDown = false;
         window.popup.style.all = "initial";
         window.popup.style.display = "inline-block";
-        window.popup.style.position = "absolute";
+        window.popup.style.position = "fixed";
         window.popup.style.left = "0px";
         window.popup.style.top = "0px";
         window.popup.style.margin = "0px 0px 0px 0px";
@@ -110,7 +110,7 @@ javascript: (function () {
         var apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
         var score = 0;
         var GAME_OVER = false;
-        var PAUSED = false;
+        var PAUSED = true;
         var canvas = document.createElement("canvas");
         canvas.width = WIDTH * TILE_SIZE;
         canvas.height = HEIGHT * TILE_SIZE;
@@ -124,18 +124,22 @@ javascript: (function () {
                 var target = (function () {
                     switch (e.key.toLowerCase()) {
                         case "arrowdown":
+                            e.preventDefault();
                             return 2;
                         case "s":
                             return 2;
                         case "arrowup":
+                            e.preventDefault();
                             return 0;
                         case "w":
                             return 0;
                         case "arrowleft":
+                            e.preventDefault();
                             return 3;
                         case "a":
                             return 3;
                         case "arrowright":
+                            e.preventDefault();
                             return 1;
                         case "d":
                             return 1;
@@ -149,6 +153,9 @@ javascript: (function () {
                 } else {
                     head = head;
                 }
+            }
+            if (e.key.toLowerCase() == "enter") {
+                attemptRestart();
             }
         });
         var draw = function () {
@@ -217,8 +224,7 @@ javascript: (function () {
         };
         /* #endregion */
 
-        requestAnimationFrame(draw);
-        window.setTimeout(requestAnimationFrame, 3000, mainloop);
+        toggleModal();
     } else {
         window.active = !window.active;
         toggleModal();
