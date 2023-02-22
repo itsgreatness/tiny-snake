@@ -165,7 +165,7 @@ javascript: (function () {
             game.forEach(function (row, y) {
                 row.forEach(function (tile, x) {
                     if (context) {
-                        context.fillStyle = ["green", "blue", "red"][tile];
+                        context.fillStyle = y * row.length + x % 2 == 1 ? ["green", "blue", "red"][tile] : ["lightgreen", "blue", "red"][tile];
                         context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                     }
                 });
