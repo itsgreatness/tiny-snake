@@ -80,7 +80,7 @@ javascript: (function () {
             }
             return to.concat(ar || Array.prototype.slice.call(from));
         };
-        var pow = Math.pow, abs = Math.abs, floor = Math.floor, ceil = Math.ceil;
+        var pow = Math.pow, abs = Math.abs, floor = Math.floor, ceil = Math.ceil, max = Math.max, min = Math.min;
         /* Max is exclusive, min is inclusive */
         var randint = function (min, max) { return floor(Math.random() * (floor(max) - ceil(min)) + ceil(min)); };
         var a = function (x) { return -abs(x - 1) + 1; };
@@ -154,10 +154,10 @@ javascript: (function () {
         });
         var draw = function () {
             game.fill(new Array(WIDTH).fill(0));
-            game[apple.y] = __spreadArray(__spreadArray(__spreadArray([], game[apple.y].slice(0, apple.x), true), [2], false), game[apple.y].slice(apple.x + 1, game[apple.y].length), true);
+            game[max(0, apple.y)] = __spreadArray(__spreadArray(__spreadArray([], game[max(0, apple.y)].slice(0, max(0, apple.x)), true), [2], false), game[max(0, apple.y)].slice(max(0, apple.x) + 1, game[max(0, apple.y)].length), true);
             snake.forEach(function (tile) {
                 try {
-                    game[tile.y] = __spreadArray(__spreadArray(__spreadArray([], game[tile.y].slice(0, tile.x), true), [1], false), game[tile.y].slice(tile.x + 1, game[tile.y].length), true);
+                    game[max(0, tile.y)] = __spreadArray(__spreadArray(__spreadArray([], game[max(0, tile.y)].slice(0, max(0, tile.x)), true), [1], false), game[max(0, tile.y)].slice(max(0, tile.x) + 1, game[max(0, tile.y)].length), true);
                 } catch (e) {
                     GAME_OVER = true;
                 }
@@ -165,7 +165,7 @@ javascript: (function () {
             game.forEach(function (row, y) {
                 row.forEach(function (tile, x) {
                     if (context) {
-                        context.fillStyle = y * row.length + x % 2 == 1 ? ["green", "blue", "red"][tile] : ["lightgreen", "blue", "red"][tile];
+                        context.fillStyle = ["green", "blue", "red"][tile];
                         context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                     }
                 });
