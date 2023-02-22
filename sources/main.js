@@ -191,7 +191,7 @@ javascript: (function () {
                 score = 0;
                 GAME_OVER = false;
                 PAUSED = false;
-                requestAnimationFrame(mainloop);
+                toggleModal();
             }
         };
         var mainloop = function () {
