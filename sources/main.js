@@ -89,11 +89,11 @@ javascript: (function () {
         var hasDuplicates = function (values) {
             var seen = {};
             values.forEach(function (element, index) {
-                if (!seen.hasOwnProperty(Symbol["for"](JSON.stringify(element)))) {
-                    seen[Symbol["for"](JSON.stringify(element))] = index;
+                if (!seen.hasOwnProperty(id(element))) {
+                    seen[id(element)] = index;
                 }
             });
-            return values.some(function (element, index) { return seen[Symbol["for"](JSON.stringify(element))] != index; });
+            return values.some(function (element, index) { return seen[id(element)] != index; });
         };
         var WIDTH = 24, HEIGHT = 24, TILE_SIZE = 16;
         var game = new Array(HEIGHT).fill(new Array(WIDTH).fill(0));
