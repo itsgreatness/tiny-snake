@@ -4,7 +4,7 @@ javascript: (function () {
         var toggleModal = function () {
             window.clearTimeout(_id);
             if (window.active) {
-                id = window.setTimeout(function () {
+                _id = window.setTimeout(function () {
                     PAUSED = false;
                     requestAnimationFrame(mainloop);
                 }, 3000);
