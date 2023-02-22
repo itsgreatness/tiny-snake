@@ -1,9 +1,8 @@
 javascript: (function () {
-
     if (typeof window.active != "boolean") {
-        var id;
-        function toggleModal() {
-            window.clearTimeout(id);
+        var _id;
+        var toggleModal = function () {
+            window.clearTimeout(_id);
             if (window.active) {
                 id = window.setTimeout(function () {
                     PAUSED = false;
@@ -17,7 +16,7 @@ javascript: (function () {
                 window.popup.style.display = "none";
                 window.focusedElement.focus({ focusVisible: true });
             }
-        }
+        };
         window.focusedElement = document.activeElement;
         window.active = !window.active ?? true;
         let mousePosition;
@@ -191,6 +190,7 @@ javascript: (function () {
                 apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
                 score = 0;
                 GAME_OVER = false;
+                PAUSED = false;
             }
         };
         var mainloop = function () {
@@ -204,18 +204,19 @@ javascript: (function () {
                             tail += 1;
                             apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
                         }
-                        if (snake[0].x > WIDTH || snake[0].x < 0 || snake[0].y > HEIGHT || snake[0].y < 0) {
+                        if (snake[0].x >= WIDTH || snake[0].x < 0 || snake[0].y >= HEIGHT || snake[0].y < 0) {
                             GAME_OVER = true;
                         }
                         if (hasDuplicates(snake)) {
                             GAME_OVER = true;
                         }
+                        break;
                     case true:
                         break;
                 }
                 draw();
                 window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
-            };
+            }
         };
         /* #endregion */
 
@@ -226,4 +227,4 @@ javascript: (function () {
         toggleModal();
     }
 
-})()
+})();
