@@ -191,28 +191,25 @@ javascript: (function () {
                 score = 0;
                 GAME_OVER = false;
                 PAUSED = false;
+                requestAnimationFrame(mainloop);
             }
         };
         var mainloop = function () {
             if (!PAUSED) {
-                switch (GAME_OVER) {
-                    case false:
-                        snake.unshift({ x: snake[0].x + a(head), y: snake[0].y + b(head) });
-                        snake = snake.slice(0, tail);
-                        if (snake[0].x == apple.x && snake[0].y == apple.y) {
-                            score += 1;
-                            tail += 1;
-                            apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
-                        }
-                        if (snake[0].x >= WIDTH || snake[0].x < 0 || snake[0].y >= HEIGHT || snake[0].y < 0) {
-                            GAME_OVER = true;
-                        }
-                        if (hasDuplicates(snake)) {
-                            GAME_OVER = true;
-                        }
-                        break;
-                    case true:
-                        break;
+                if (!GAME_OVER) {
+                    snake.unshift({ x: snake[0].x + a(head), y: snake[0].y + b(head) });
+                    snake = snake.slice(0, tail);
+                    if (snake[0].x == apple.x && snake[0].y == apple.y) {
+                        score += 1;
+                        tail += 1;
+                        apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
+                    }
+                    if (snake[0].x >= WIDTH || snake[0].x < 0 || snake[0].y >= HEIGHT || snake[0].y < 0) {
+                        GAME_OVER = true;
+                    }
+                    if (hasDuplicates(snake)) {
+                        GAME_OVER = true;
+                    }
                 }
                 draw();
                 window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
