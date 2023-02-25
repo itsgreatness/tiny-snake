@@ -85,6 +85,7 @@ javascript: (function () {
         var randint = function (min, max) { return floor(Math.random() * (floor(max) - ceil(min)) + ceil(min)); };
         var a = function (x) { return -abs(x - 1) + 1; };
         var b = function (x) { return -abs(x - 2) + 1; };
+        var valid_turn = function (a,b) { return abs(abs(a-b)-2); };
         var id = function (x) { return Symbol["for"](JSON.stringify(x)); };
         var hasDuplicates = function (values) {
             var seen = {};
@@ -142,15 +143,12 @@ javascript: (function () {
                     case "d":
                         return PAUSED ? head : 1;
                     case "enter":
+                        e.preventDefault();
                         attemptRestart();
                         return head;
                 }
             })();
-            if ((head + 3) % 4 == target || (head + 5) % 4 == target) {
-                head = target;
-            } else {
-                head = head;
-            }
+            head = head + valid_turn(target, head) * (target - head);
         });
         var draw = function () {
             game.fill(new Array(WIDTH).fill(0));

@@ -6,6 +6,6 @@ create a bookmark and change the url to javascript: + paste code from minified.j
 # dev tools
 [js minifier](https://www.digitalocean.com/community/tools/minify)
 
-[url encoder](https://www.urlencoder.org)
+by the way hi gunnar
 
 [jshint](https://jshint.com/)
