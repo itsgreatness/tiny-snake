@@ -201,9 +201,9 @@ javascript: (function () {
                         GAME_OVER = true;
                     }
                 }
-                requestAnimationFrame(draw);
                 window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
             }
+            requestAnimationFrame(draw);
         };
         /* #endregion */
 
