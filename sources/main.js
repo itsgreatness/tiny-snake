@@ -165,6 +165,7 @@ javascript: (function () {
                 context.font = "bold ".concat(0.75 * TILE_SIZE, "px sans-serif");
                 context.fillText(score.toString(), 16, 32);
             }
+            requestAnimationFrame(draw);
         };
         var attemptRestart = function () {
             if (GAME_OVER) {
@@ -201,9 +202,9 @@ javascript: (function () {
                         GAME_OVER = true;
                     }
                 }
+                requestAnimationFrame(draw);
                 window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
             }
-            requestAnimationFrame(draw);
         };
         /* #endregion */
 
