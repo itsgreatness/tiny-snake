@@ -1,7 +1,7 @@
 javascript: (function () {
     if (typeof window.active != "boolean") {
         var _id;
-        var toggleModal = function () {
+        window.toggleModal = function () {
             window.clearTimeout(_id);
             if (window.active) {
                 _id = window.setTimeout(function () {
@@ -64,13 +64,12 @@ javascript: (function () {
             if (e.ctrlKey && e.location == 2) {
                 window.active = !window.active;
             }
-            toggleModal();
+            window.toggleModal();
         }, true);
 
         document.body.appendChild(window.popup);
         window.popup.focus({ focusVisible: true });
 
-        /* #region game code */
         var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
             if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
                 if (ar || !(i in from)) {
@@ -85,7 +84,7 @@ javascript: (function () {
         var randint = function (min, max) { return floor(Math.random() * (floor(max) - ceil(min)) + ceil(min)); };
         var a = function (x) { return -abs(x - 1) + 1; };
         var b = function (x) { return -abs(x - 2) + 1; };
-        var valid_turn = function (a,b) { return abs(abs(a-b)-2); };
+        var valid_turn = function (a, b) { return abs(abs(a - b) - 2); };
         var id = function (x) { return Symbol["for"](JSON.stringify(x)); };
         var hasDuplicates = function (values) {
             var seen = {};
@@ -143,27 +142,29 @@ javascript: (function () {
             head = head + valid_turn(target, head) * (target - head);
         });
         var draw = function () {
-            game.fill(new Array(WIDTH).fill(0));
-            game[max(0, apple.y)] = __spreadArray(__spreadArray(__spreadArray([], game[max(0, apple.y)].slice(0, max(0, apple.x)), true), [2], false), game[max(0, apple.y)].slice(max(0, apple.x) + 1, game[max(0, apple.y)].length), true);
-            snake.forEach(function (tile) {
-                try {
-                    game[max(0, tile.y)] = __spreadArray(__spreadArray(__spreadArray([], game[max(0, tile.y)].slice(0, max(0, tile.x)), true), [1], false), game[max(0, tile.y)].slice(max(0, tile.x) + 1, game[max(0, tile.y)].length), true);
-                } catch (e) {
-                    GAME_OVER = true;
-                }
-            });
-            game.forEach(function (row, y) {
-                row.forEach(function (tile, x) {
-                    if (context) {
-                        context.fillStyle = ["green", "blue", "red"][tile];
-                        context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            if (window.active) {
+                game.fill(new Array(WIDTH).fill(0));
+                game[max(0, apple.y)] = __spreadArray(__spreadArray(__spreadArray([], game[max(0, apple.y)].slice(0, max(0, apple.x)), true), [2], false), game[max(0, apple.y)].slice(max(0, apple.x) + 1, game[max(0, apple.y)].length), true);
+                snake.forEach(function (tile) {
+                    try {
+                        game[max(0, tile.y)] = __spreadArray(__spreadArray(__spreadArray([], game[max(0, tile.y)].slice(0, max(0, tile.x)), true), [1], false), game[max(0, tile.y)].slice(max(0, tile.x) + 1, game[max(0, tile.y)].length), true);
+                    } catch (e) {
+                        GAME_OVER = true;
                     }
                 });
-            });
-            if (context) {
-                context.fillStyle = "white";
-                context.font = "bold ".concat(0.75 * TILE_SIZE, "px sans-serif");
-                context.fillText(score.toString(), 16, 32);
+                game.forEach(function (row, y) {
+                    row.forEach(function (tile, x) {
+                        if (context) {
+                            context.fillStyle = ["green", "blue", "red"][tile];
+                            context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                        }
+                    });
+                });
+                if (context) {
+                    context.fillStyle = "white";
+                    context.font = "bold ".concat(0.75 * TILE_SIZE, "px sans-serif");
+                    context.fillText(score.toString(), 16, 32);
+                }
             }
             requestAnimationFrame(draw);
         };
@@ -181,38 +182,34 @@ javascript: (function () {
                 apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
                 score = 0;
                 GAME_OVER = false;
-                requestAnimationFrame(draw);
-                toggleModal();
+                window.toggleModal();
             }
         };
         var mainloop = function () {
-            if (!PAUSED) {
-                if (!GAME_OVER) {
-                    snake.unshift({ x: snake[0].x + a(head), y: snake[0].y + b(head) });
-                    snake = snake.slice(0, tail);
-                    if (snake[0].x == apple.x && snake[0].y == apple.y) {
-                        score += 1;
-                        tail += 1;
-                        apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
-                    }
-                    if (snake[0].x >= WIDTH || snake[0].x < 0 || snake[0].y >= HEIGHT || snake[0].y < 0) {
-                        GAME_OVER = true;
-                    }
-                    if (hasDuplicates(snake)) {
-                        GAME_OVER = true;
-                    }
+            if (PAUSED) return;
+            if (!GAME_OVER) {
+                snake.unshift({ x: snake[0].x + a(head), y: snake[0].y + b(head) });
+                snake = snake.slice(0, tail);
+                if (snake[0].x == apple.x && snake[0].y == apple.y) {
+                    score += 1;
+                    tail += 1;
+                    apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
                 }
-                requestAnimationFrame(draw);
-                window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
+                if (snake[0].x >= WIDTH || snake[0].x < 0 || snake[0].y >= HEIGHT || snake[0].y < 0) {
+                    GAME_OVER = true;
+                }
+                if (hasDuplicates(snake)) {
+                    GAME_OVER = true;
+                }
             }
+            window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
         };
-        /* #endregion */
 
         requestAnimationFrame(draw);
-        toggleModal();
+        window.toggleModal();
     } else {
         window.active = !window.active;
-        toggleModal();
+        window.toggleModal();
     }
 
 })();
