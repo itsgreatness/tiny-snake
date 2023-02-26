@@ -120,31 +120,23 @@ javascript: (function () {
         container === null || container === void 0 ? void 0 : container.appendChild(canvas);
         var context = canvas.getContext("2d");
         window.addEventListener("keydown", function (e) {
+            if (GAME_OVER || PAUSED) return e.key.toLowerCase() === "enter" ? attemptRestart() : void 0;
+            e.preventDefault();
             var target = (function () {
                 switch (e.key.toLowerCase()) {
                     case "arrowdown":
-                        e.preventDefault();
-                        return PAUSED ? head : 2;
                     case "s":
                         return PAUSED ? head : 2;
                     case "arrowup":
-                        e.preventDefault();
-                        return PAUSED ? head : 0;
                     case "w":
                         return PAUSED ? head : 0;
                     case "arrowleft":
-                        e.preventDefault();
-                        return PAUSED ? head : 3;
                     case "a":
                         return PAUSED ? head : 3;
                     case "arrowright":
-                        e.preventDefault();
-                        return PAUSED ? head : 1;
                     case "d":
                         return PAUSED ? head : 1;
-                    case "enter":
-                        e.preventDefault();
-                        attemptRestart();
+                    default:
                         return head;
                 }
             })();
@@ -188,7 +180,7 @@ javascript: (function () {
                 apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
                 score = 0;
                 GAME_OVER = false;
-                PAUSED = false;
+                requestAnimationFrame(draw);
                 toggleModal();
             }
         };
@@ -209,7 +201,7 @@ javascript: (function () {
                         GAME_OVER = true;
                     }
                 }
-                draw();
+                requestAnimationFrame(draw);
                 window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
             }
         };
