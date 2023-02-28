@@ -1,13 +1,27 @@
 javascript: (function () {
+
     if (typeof window.active !== "boolean") {
         var _id;
-        window.toggleModal = function () {
+        window.toggleModal = function (t=3000) {
+            console.table({
+                "source": "toggleModal",
+                "time": Date.now(),
+                "t": t,
+                "_id": _id,
+            });
             window.clearTimeout(_id);
             if (window.active === true) {
                 _id = window.setTimeout(function () {
+                    console.table({
+                        "source": "anonymous timeout",
+                        "time": Date.now(),
+                        "t": t,
+                        "_id": _id,
+                    });
                     PAUSED = false;
                     requestAnimationFrame(mainloop);
-                }, 3000);
+                    window.clearTimeout(_id);
+                }, t);
                 window.popup.style.display = "inline-block";
                 window.popup.focus();
             } else {
@@ -16,6 +30,7 @@ javascript: (function () {
                 window.popup.style.display = "none";
                 window.focusedElement.focus({ focusVisible: true });
             }
+            return t;
         };
         window.focusedElement = document.activeElement;
         window.active = !window.active ?? true;
@@ -63,8 +78,8 @@ javascript: (function () {
         document.addEventListener("keydown", function (e) {
             if (e.ctrlKey && e.location === 2) {
                 window.active = !window.active;
+                window.toggleModal();
             }
-            window.toggleModal();
         }, true);
 
         document.body.appendChild(window.popup);
@@ -183,25 +198,28 @@ javascript: (function () {
                 apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
                 score = 0;
                 GAME_OVER = false;
-                window.toggleModal();
+                console.table({
+                    "source": "attemptRestart",
+                    "time": Date.now(),
+                    "t": window.toggleModal(0),
+                    "_id": _id,
+                });
             }
         };
         var mainloop = function () {
-            if (PAUSED) return;
-            if (!GAME_OVER) {
-                snake.unshift({ x: snake[0].x + a(head), y: snake[0].y + b(head) });
-                snake = snake.slice(0, tail);
-                if (snake[0].x == apple.x && snake[0].y === apple.y) {
-                    score += 1;
-                    tail += 1;
-                    apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
-                }
-                if (snake[0].x >= WIDTH || snake[0].x < 0 || snake[0].y >= HEIGHT || snake[0].y < 0) {
-                    GAME_OVER = true;
-                }
-                if (hasDuplicates(snake)) {
-                    GAME_OVER = true;
-                }
+            if (PAUSED || GAME_OVER) return;
+            snake.unshift({ x: snake[0].x + a(head), y: snake[0].y + b(head) });
+            snake = snake.slice(0, tail);
+            if (snake[0].x == apple.x && snake[0].y === apple.y) {
+                score += 1;
+                tail += 1;
+                apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
+            }
+            if (snake[0].x >= WIDTH || snake[0].x < 0 || snake[0].y >= HEIGHT || snake[0].y < 0) {
+                GAME_OVER = true;
+            }
+            if (hasDuplicates(snake)) {
+                GAME_OVER = true;
             }
             window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
         };
