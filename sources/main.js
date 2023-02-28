@@ -3,7 +3,7 @@ javascript: (function () {
         var _id;
         window.toggleModal = function () {
             window.clearTimeout(_id);
-            if (window.active) {
+            if (window.active === true) {
                 _id = window.setTimeout(function () {
                     PAUSED = false;
                     requestAnimationFrame(mainloop);
