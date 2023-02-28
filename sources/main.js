@@ -121,6 +121,7 @@ javascript: (function () {
         window.addEventListener("keydown", function (e) {
             if (GAME_OVER || PAUSED) return e.key.toLowerCase() === "enter" ? attemptRestart() : void 0;
             e.preventDefault();
+            e.stopPropagation();
             var target = (function () {
                 switch (e.key.toLowerCase()) {
                     case "arrowdown":
@@ -140,7 +141,7 @@ javascript: (function () {
                 }
             })();
             head = head + valid_turn(target, head) * (target - head);
-        });
+        }, true);
         var draw = function () {
             if (window.active) {
                 game.fill(new Array(WIDTH).fill(0));
