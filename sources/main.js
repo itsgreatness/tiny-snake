@@ -1,5 +1,5 @@
 javascript: (function () {
-    if (typeof window.active != "boolean") {
+    if (typeof window.active !== "boolean") {
         var _id;
         window.toggleModal = function () {
             window.clearTimeout(_id);
@@ -61,7 +61,7 @@ javascript: (function () {
             }
         }, true);
         document.addEventListener("keydown", function (e) {
-            if (e.ctrlKey && e.location == 2) {
+            if (e.ctrlKey && e.location === 2) {
                 window.active = !window.active;
             }
             window.toggleModal();
@@ -191,7 +191,7 @@ javascript: (function () {
             if (!GAME_OVER) {
                 snake.unshift({ x: snake[0].x + a(head), y: snake[0].y + b(head) });
                 snake = snake.slice(0, tail);
-                if (snake[0].x == apple.x && snake[0].y == apple.y) {
+                if (snake[0].x == apple.x && snake[0].y === apple.y) {
                     score += 1;
                     tail += 1;
                     apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
