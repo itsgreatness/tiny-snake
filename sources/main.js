@@ -3,21 +3,9 @@ javascript: (function () {
     if (typeof window.active !== "boolean") {
         var _id;
         window.toggleModal = function (t=3000) {
-            console.table({
-                "source": "toggleModal",
-                "time": Date.now(),
-                "t": t,
-                "_id": _id,
-            });
             window.clearTimeout(_id);
             if (window.active === true) {
                 _id = window.setTimeout(function () {
-                    console.table({
-                        "source": "anonymous timeout",
-                        "time": Date.now(),
-                        "t": t,
-                        "_id": _id,
-                    });
                     PAUSED = false;
                     requestAnimationFrame(mainloop);
                     window.clearTimeout(_id);
@@ -30,7 +18,6 @@ javascript: (function () {
                 window.popup.style.display = "none";
                 window.focusedElement.focus({ focusVisible: true });
             }
-            return t;
         };
         window.focusedElement = document.activeElement;
         window.active = !window.active ?? true;
@@ -198,12 +185,7 @@ javascript: (function () {
                 apple = { x: randint(0, WIDTH), y: randint(0, HEIGHT) };
                 score = 0;
                 GAME_OVER = false;
-                console.table({
-                    "source": "attemptRestart",
-                    "time": Date.now(),
-                    "t": window.toggleModal(0),
-                    "_id": _id,
-                });
+                window.toggleModal(0);
             }
         };
         var mainloop = function () {
