@@ -2,13 +2,12 @@ javascript: (function () {
 
     if (typeof window.active !== "boolean") {
         var _id;
-        window.toggleModal = function (t=3000) {
+        window.toggleModal = function (t = 3000) {
             window.clearTimeout(_id);
             if (window.active === true) {
                 _id = window.setTimeout(function () {
                     PAUSED = false;
                     requestAnimationFrame(mainloop);
-                    window.clearTimeout(_id);
                 }, t);
                 window.popup.style.display = "inline-block";
                 window.popup.focus();
@@ -31,9 +30,9 @@ javascript: (function () {
         window.popup.style.position = "fixed";
         window.popup.style.left = "0px";
         window.popup.style.top = "0px";
-        window.popup.style.margin = "0px 0px 0px 0px";
-        window.popup.style.padding = "0px 0px 0px 0px";
-        window.popup.style.zIndex = 9999;
+        window.popup.style.margin = "0";
+        window.popup.style.padding = "0";
+        window.popup.style.zIndex = "9999";
         window.popup.tabIndex = 0;
 
         window.popup.addEventListener('mousedown', function (e) {
@@ -58,14 +57,8 @@ javascript: (function () {
             }
         }, true);
         document.addEventListener("focus", function (e) {
-            if (document.activeElement != window.popup) {
+            if (document.activeElement !== window.popup) {
                 window.focusedElement = document.activeElement;
-            }
-        }, true);
-        document.addEventListener("keydown", function (e) {
-            if (e.ctrlKey && e.location === 2) {
-                window.active = !window.active;
-                window.toggleModal();
             }
         }, true);
 
@@ -121,9 +114,13 @@ javascript: (function () {
         container === null || container === void 0 ? void 0 : container.appendChild(canvas);
         var context = canvas.getContext("2d");
         window.addEventListener("keydown", function (e) {
-            if (GAME_OVER || PAUSED) return e.key.toLowerCase() === "enter" ? attemptRestart() : void 0;
             e.preventDefault();
             e.stopPropagation();
+            if (e.ctrlKey && e.location === 2) {
+                window.active = !window.active;
+                window.toggleModal();
+            }
+            if (GAME_OVER || PAUSED) return e.key.toLowerCase() === "enter" ? attemptRestart() : void 0;
             var target = (function () {
                 switch (e.key.toLowerCase()) {
                     case "arrowdown":
