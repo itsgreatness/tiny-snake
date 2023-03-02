@@ -1,3 +1,3 @@
 generate:
-	@tsc *.ts
+	@tsc ./sources/*.ts
 .DEFAULT_GOAL := generate
