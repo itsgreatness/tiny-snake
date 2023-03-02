@@ -1,48 +1,44 @@
 javascript: (function () {
     "use strict";
-    if (typeof globalThis.active !== "boolean") {
+    if (typeof globalThis.globalThis.active !== "boolean") {
         var _id: number;
         var toggleModal = function (t = 3000) {
-            try {
-                globalThis.clearTimeout(_id);
-                if (globalThis.active === true) {
-                    _id = globalThis.setTimeout(function () {
-                        globalThis.PAUSED = false;
-                        requestAnimationFrame(globalThis.mainloop);
-                    }, t);
-                    globalThis.popup.style.display = "inline-block";
-                    globalThis.popup.focus();
-                } else {
-                    globalThis.PAUSED = true;
-                    globalThis.active = false;
-                    globalThis.popup.style.display = "none";
-                    globalThis.focusedElement.focus();
-                }
-            } catch (e) {
-                void 0;
+            globalThis.clearTimeout(_id);
+            if (globalThis.active === true) {
+                _id = globalThis.setTimeout(function () {
+                    globalThis.PAUSED = false;
+                    requestAnimationFrame(globalThis.mainloop);
+                }, t);
+                globalThis.popup.style.display = "inline-block";
+                globalThis.popup.focus();
+            } else {
+                globalThis.PAUSED = true;
+                globalThis.active = false;
+                globalThis.popup.style.display = "none";
+                globalThis.focusedElement.focus();
             }
         }
         var focusedElement = document.activeElement;
-        var active = !active ?? true;
+        globalThis.active = !globalThis.active ?? true;
         let mousePosition: { x: number, y: number };
         let offset = [0, 0];
         let isDown = false;
-        var popup = document.createElement("div");
-        popup.id = "game";
-        popup.tabIndex = 0;
-        popup.style.all = "initial";
-        popup.style.display = "inline-block";
-        popup.style.position = "fixed";
-        popup.style.left = "0px";
-        popup.style.top = "0px";
-        popup.style.margin = "0";
-        popup.style.padding = "0";
-        popup.style.zIndex = "9999";
-        popup.addEventListener("mousedown", (event) => {
+        globalThis.popup = document.createElement("div");
+        globalThis.popup.id = "game";
+        globalThis.popup.tabIndex = 0;
+        globalThis.popup.style.all = "initial";
+        globalThis.popup.style.display = "inline-block";
+        globalThis.popup.style.position = "fixed";
+        globalThis.popup.style.left = "0px";
+        globalThis.popup.style.top = "0px";
+        globalThis.popup.style.margin = "0";
+        globalThis.popup.style.padding = "0";
+        globalThis.popup.style.zIndex = "9999";
+        globalThis.popup.addEventListener("mousedown", (event) => {
             isDown = true;
             offset = [
-                popup.offsetLeft - event.clientX,
-                popup.offsetTop - event.clientY
+                globalThis.popup.offsetLeft - event.clientX,
+                globalThis.popup.offsetTop - event.clientY
             ]
         }, true)
         document.addEventListener("mouseup", () => {
@@ -55,15 +51,15 @@ javascript: (function () {
                     x: event.clientX,
                     y: event.clientY
                 };
-                popup.style.left = `${mousePosition.x + offset[0]}px`;
-                popup.style.top = `${mousePosition.y + offset[1]}px`;
+                globalThis.popup.style.left = `${mousePosition.x + offset[0]}px`;
+                globalThis.popup.style.top = `${mousePosition.y + offset[1]}px`;
             }
         }, true)
         document.addEventListener("focus", (event) => {
-            focusedElement = document.activeElement === popup ? focusedElement : document.activeElement;
+            focusedElement = document.activeElement === globalThis.popup ? focusedElement : document.activeElement;
         }, true)
-        document.body.appendChild(popup);
-        popup.focus();
+        document.body.appendChild(globalThis.popup);
+        globalThis.popup.focus();
 
         const { abs, floor, ceil, max } = Math;
         /* Max is exclusive, min is inclusive */
@@ -99,8 +95,8 @@ javascript: (function () {
         const canvas = document.createElement("canvas");
         canvas.width = WIDTH * TILE_SIZE;
         canvas.height = HEIGHT * TILE_SIZE;
-        popup.style.width = `${canvas.width}px`;
-        popup.style.height = `${canvas.height}px`;
+        globalThis.popup.style.width = `${canvas.width}px`;
+        globalThis.popup.style.height = `${canvas.height}px`;
         const container = document.getElementById("game");
         container?.appendChild(canvas);
         const context = canvas.getContext("2d");
@@ -108,7 +104,7 @@ javascript: (function () {
             event.preventDefault();
             event.stopPropagation();
             if (event.ctrlKey && event.location === 2) {
-                active = !active;
+                globalThis.active = !globalThis.active;
                 return toggleModal();
             }
             if (GAME_OVER || PAUSED) {
@@ -135,11 +131,11 @@ javascript: (function () {
             head = head + valid_turn(target, head) * (target - head);
         }, true)
         const draw = () => {
-            if (active) {
+            if (globalThis.active) {
                 game.fill(new Array(WIDTH).fill(0));
-                game[apple.y] = [...game[apple.y].slice(0, apple.x), 2, ...game[apple.y].slice(apple.x + 1, game[apple.y].length)];
+                game[max(0, apple.y)] = [...game[max(0, apple.y)].slice(0, max(0, apple.x)), 2, ...game[max(0, apple.y)].slice(max(0, apple.x) + 1, game[max(0, apple.y)].length)];
                 snake.forEach((tile) => {
-                    game[tile.y] = [...game[tile.y].slice(0, tile.x), 1, ...game[tile.y].slice(tile.x + 1, game[tile.y].length)];
+                    game[max(0, tile.y)] = [...game[max(0, tile.y)].slice(0, max(0, tile.x)), 1, ...game[max(0, tile.y)].slice(max(0, tile.x) + 1, game[max(0, tile.y)].length)];
                 })
                 game.forEach((row: number[], y: number) => {
                     row.forEach((tile, x) => {
@@ -174,7 +170,7 @@ javascript: (function () {
                 toggleModal(0);
             }
         }
-        const mainloop = () => {
+        globalThis.mainloop = () => {
             if (PAUSED || GAME_OVER) return;
             snake.unshift({ x: snake[0].x + a(head), y: snake[0].y + b(head) });
             snake = snake.slice(0, tail);
@@ -189,12 +185,12 @@ javascript: (function () {
             if (hasDuplicates(snake)) {
                 GAME_OVER = true;
             }
-            window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop);
+            window.setTimeout(requestAnimationFrame, 1000 / 16, globalThis.mainloop);
         }
         requestAnimationFrame(draw);
         toggleModal();
     } else {
         globalThis.active = !globalThis.active;
-        toggleModal();
+        globalThis.toggleModal();
     }
 })()

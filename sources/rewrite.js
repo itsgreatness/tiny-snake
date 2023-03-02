@@ -1,62 +1,56 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 javascript: (function () {
     "use strict";
-    var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-        if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-            if (ar || !(i in from)) {
-                if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-                ar[i] = from[i];
-            }
-        }
-        return to.concat(ar || Array.prototype.slice.call(from));
-    };
-    
     var _a;
-    if (typeof globalThis.active !== "boolean") {
+    if (typeof globalThis.globalThis.active !== "boolean") {
         var _id;
         var toggleModal = function (t) {
             if (t === void 0) { t = 3000; }
-            try {
-                globalThis.clearTimeout(_id);
-                if (globalThis.active === true) {
-                    _id = globalThis.setTimeout(function () {
-                        globalThis.PAUSED = false;
-                        requestAnimationFrame(globalThis.mainloop);
-                    }, t);
-                    globalThis.popup.style.display = "inline-block";
-                    globalThis.popup.focus();
-                }
-                else {
-                    globalThis.PAUSED = true;
-                    globalThis.active = false;
-                    globalThis.popup.style.display = "none";
-                    globalThis.focusedElement.focus();
-                }
+            globalThis.clearTimeout(_id);
+            if (globalThis.active === true) {
+                _id = globalThis.setTimeout(function () {
+                    globalThis.PAUSED = false;
+                    requestAnimationFrame(globalThis.mainloop);
+                }, t);
+                globalThis.popup.style.display = "inline-block";
+                globalThis.popup.focus();
             }
-            catch (e) {
-                void 0;
+            else {
+                globalThis.PAUSED = true;
+                globalThis.active = false;
+                globalThis.popup.style.display = "none";
+                globalThis.focusedElement.focus();
             }
         };
         var focusedElement = document.activeElement;
-        var active = (_a = !active) !== null && _a !== void 0 ? _a : true;
+        globalThis.active = (_a = !globalThis.active) !== null && _a !== void 0 ? _a : true;
         var mousePosition_1;
         var offset_1 = [0, 0];
         var isDown_1 = false;
-        var popup = document.createElement("div");
-        popup.id = "game";
-        popup.tabIndex = 0;
-        popup.style.all = "initial";
-        popup.style.display = "inline-block";
-        popup.style.position = "fixed";
-        popup.style.left = "0px";
-        popup.style.top = "0px";
-        popup.style.margin = "0";
-        popup.style.padding = "0";
-        popup.style.zIndex = "9999";
-        popup.addEventListener("mousedown", function (event) {
+        globalThis.popup = document.createElement("div");
+        globalThis.popup.id = "game";
+        globalThis.popup.tabIndex = 0;
+        globalThis.popup.style.all = "initial";
+        globalThis.popup.style.display = "inline-block";
+        globalThis.popup.style.position = "fixed";
+        globalThis.popup.style.left = "0px";
+        globalThis.popup.style.top = "0px";
+        globalThis.popup.style.margin = "0";
+        globalThis.popup.style.padding = "0";
+        globalThis.popup.style.zIndex = "9999";
+        globalThis.popup.addEventListener("mousedown", function (event) {
             isDown_1 = true;
             offset_1 = [
-                popup.offsetLeft - event.clientX,
-                popup.offsetTop - event.clientY
+                globalThis.popup.offsetLeft - event.clientX,
+                globalThis.popup.offsetTop - event.clientY
             ];
         }, true);
         document.addEventListener("mouseup", function () {
@@ -69,16 +63,16 @@ javascript: (function () {
                     x: event.clientX,
                     y: event.clientY
                 };
-                popup.style.left = "".concat(mousePosition_1.x + offset_1[0], "px");
-                popup.style.top = "".concat(mousePosition_1.y + offset_1[1], "px");
+                globalThis.popup.style.left = "".concat(mousePosition_1.x + offset_1[0], "px");
+                globalThis.popup.style.top = "".concat(mousePosition_1.y + offset_1[1], "px");
             }
         }, true);
         document.addEventListener("focus", function (event) {
-            focusedElement = document.activeElement === popup ? focusedElement : document.activeElement;
+            focusedElement = document.activeElement === globalThis.popup ? focusedElement : document.activeElement;
         }, true);
-        document.body.appendChild(popup);
-        popup.focus();
-        var abs_1 = Math.abs, floor_1 = Math.floor, ceil_1 = Math.ceil, max = Math.max;
+        document.body.appendChild(globalThis.popup);
+        globalThis.popup.focus();
+        var abs_1 = Math.abs, floor_1 = Math.floor, ceil_1 = Math.ceil, max_1 = Math.max;
         /* Max is exclusive, min is inclusive */
         var randint_1 = function (min, max) { return floor_1(Math.random() * (floor_1(max) - ceil_1(min)) + ceil_1(min)); };
         var a_1 = function (x) { return -abs_1(x - 1) + 1; };
@@ -112,8 +106,8 @@ javascript: (function () {
         var canvas = document.createElement("canvas");
         canvas.width = WIDTH_1 * TILE_SIZE_1;
         canvas.height = HEIGHT_1 * TILE_SIZE_1;
-        popup.style.width = "".concat(canvas.width, "px");
-        popup.style.height = "".concat(canvas.height, "px");
+        globalThis.popup.style.width = "".concat(canvas.width, "px");
+        globalThis.popup.style.height = "".concat(canvas.height, "px");
         var container = document.getElementById("game");
         container === null || container === void 0 ? void 0 : container.appendChild(canvas);
         var context_1 = canvas.getContext("2d");
@@ -121,7 +115,7 @@ javascript: (function () {
             event.preventDefault();
             event.stopPropagation();
             if (event.ctrlKey && event.location === 2) {
-                active = !active;
+                globalThis.active = !globalThis.active;
                 return toggleModal();
             }
             if (GAME_OVER_1 || PAUSED_1) {
@@ -148,11 +142,11 @@ javascript: (function () {
             head_1 = head_1 + valid_turn_1(target, head_1) * (target - head_1);
         }, true);
         var draw_1 = function () {
-            if (active) {
+            if (globalThis.active) {
                 game_1.fill(new Array(WIDTH_1).fill(0));
-                game_1[apple_1.y] = __spreadArray(__spreadArray(__spreadArray([], game_1[apple_1.y].slice(0, apple_1.x), true), [2], false), game_1[apple_1.y].slice(apple_1.x + 1, game_1[apple_1.y].length), true);
+                game_1[max_1(0, apple_1.y)] = __spreadArray(__spreadArray(__spreadArray([], game_1[max_1(0, apple_1.y)].slice(0, max_1(0, apple_1.x)), true), [2], false), game_1[max_1(0, apple_1.y)].slice(max_1(0, apple_1.x) + 1, game_1[max_1(0, apple_1.y)].length), true);
                 snake_1.forEach(function (tile) {
-                    game_1[tile.y] = __spreadArray(__spreadArray(__spreadArray([], game_1[tile.y].slice(0, tile.x), true), [1], false), game_1[tile.y].slice(tile.x + 1, game_1[tile.y].length), true);
+                    game_1[max_1(0, tile.y)] = __spreadArray(__spreadArray(__spreadArray([], game_1[max_1(0, tile.y)].slice(0, max_1(0, tile.x)), true), [1], false), game_1[max_1(0, tile.y)].slice(max_1(0, tile.x) + 1, game_1[max_1(0, tile.y)].length), true);
                 });
                 game_1.forEach(function (row, y) {
                     row.forEach(function (tile, x) {
@@ -188,7 +182,7 @@ javascript: (function () {
                 toggleModal(0);
             }
         };
-        var mainloop_1 = function () {
+        globalThis.mainloop = function () {
             if (PAUSED_1 || GAME_OVER_1)
                 return;
             snake_1.unshift({ x: snake_1[0].x + a_1(head_1), y: snake_1[0].y + b_1(head_1) });
@@ -204,13 +198,13 @@ javascript: (function () {
             if (hasDuplicates_1(snake_1)) {
                 GAME_OVER_1 = true;
             }
-            window.setTimeout(requestAnimationFrame, 1000 / 16, mainloop_1);
+            window.setTimeout(requestAnimationFrame, 1000 / 16, globalThis.mainloop);
         };
         requestAnimationFrame(draw_1);
         toggleModal();
     }
     else {
         globalThis.active = !globalThis.active;
-        toggleModal();
+        globalThis.toggleModal();
     }
 })();
