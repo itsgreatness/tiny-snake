@@ -14,20 +14,25 @@ javascript: (function () {
         var _id;
         var toggleModal = function (t) {
             if (t === void 0) { t = 3000; }
-            globalThis.clearTimeout(_id);
-            if (globalThis.active === true) {
-                _id = globalThis.setTimeout(function () {
-                    globalThis.PAUSED = false;
-                    requestAnimationFrame(globalThis.mainloop);
-                }, t);
-                globalThis.popup.style.display = "inline-block";
-                globalThis.popup.focus();
+            try {
+                globalThis.clearTimeout(_id);
+                if (globalThis.active === true) {
+                    _id = globalThis.setTimeout(function () {
+                        globalThis.PAUSED = false;
+                        requestAnimationFrame(globalThis.mainloop);
+                    }, t);
+                    globalThis.popup.style.display = "inline-block";
+                    globalThis.popup.focus();
+                }
+                else {
+                    globalThis.PAUSED = true;
+                    globalThis.active = false;
+                    globalThis.popup.style.display = "none";
+                    globalThis.focusedElement.focus();
+                }
             }
-            else {
-                globalThis.PAUSED = true;
-                globalThis.active = false;
-                globalThis.popup.style.display = "none";
-                globalThis.focusedElement.focus();
+            catch (e) {
+                void 0;
             }
         };
         var focusedElement = document.activeElement;
