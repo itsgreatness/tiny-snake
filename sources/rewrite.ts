@@ -81,7 +81,7 @@ javascript: (function () {
             })
             return values.some((element, index) => seen[id(element)] != index);
         }
-        const WIDTH = 24, HEIGHT = 24, TILE_SIZE = 24;
+        const WIDTH = 24, HEIGHT = 24, TILE_SIZE = 16;
         const game = new Array(HEIGHT).fill(new Array(WIDTH).fill(0));
         let snake = [{ x: floor(WIDTH / 4), y: floor(HEIGHT / 2) }];
         let head = /* 

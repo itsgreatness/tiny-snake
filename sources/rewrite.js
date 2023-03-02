@@ -9,6 +9,7 @@ javascript: (function () {
         }
         return to.concat(ar || Array.prototype.slice.call(from));
     };
+    
     var _a;
     if (typeof globalThis.active !== "boolean") {
         var _id;
@@ -93,7 +94,7 @@ javascript: (function () {
             });
             return values.some(function (element, index) { return seen[id_1(element)] != index; });
         };
-        var WIDTH_1 = 24, HEIGHT_1 = 24, TILE_SIZE_1 = 24;
+        var WIDTH_1 = 24, HEIGHT_1 = 24, TILE_SIZE_1 = 16;
         var game_1 = new Array(HEIGHT_1).fill(new Array(WIDTH_1).fill(0));
         var snake_1 = [{ x: floor_1(WIDTH_1 / 4), y: floor_1(HEIGHT_1 / 2) }];
         var head_1 = /*
