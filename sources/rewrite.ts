@@ -135,7 +135,11 @@ javascript: (function () {
                 game.fill(new Array(WIDTH).fill(0));
                 game[max(0, apple.y)] = [...game[max(0, apple.y)].slice(0, max(0, apple.x)), 2, ...game[max(0, apple.y)].slice(max(0, apple.x) + 1, game[max(0, apple.y)].length)];
                 snake.forEach((tile) => {
-                    game[max(0, tile.y)] = [...game[max(0, tile.y)].slice(0, max(0, tile.x)), 1, ...game[max(0, tile.y)].slice(max(0, tile.x) + 1, game[max(0, tile.y)].length)];
+                    try {
+                        game[max(0, tile.y)] = [...game[max(0, tile.y)].slice(0, max(0, tile.x)), 1, ...game[max(0, tile.y)].slice(max(0, tile.x) + 1, game[max(0, tile.y)].length)];
+                    } catch (e) {
+                        GAME_OVER = true;
+                    }
                 })
                 game.forEach((row: number[], y: number) => {
                     row.forEach((tile, x) => {

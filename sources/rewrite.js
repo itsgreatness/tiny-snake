@@ -146,7 +146,12 @@ javascript: (function () {
                 game_1.fill(new Array(WIDTH_1).fill(0));
                 game_1[max_1(0, apple_1.y)] = __spreadArray(__spreadArray(__spreadArray([], game_1[max_1(0, apple_1.y)].slice(0, max_1(0, apple_1.x)), true), [2], false), game_1[max_1(0, apple_1.y)].slice(max_1(0, apple_1.x) + 1, game_1[max_1(0, apple_1.y)].length), true);
                 snake_1.forEach(function (tile) {
-                    game_1[max_1(0, tile.y)] = __spreadArray(__spreadArray(__spreadArray([], game_1[max_1(0, tile.y)].slice(0, max_1(0, tile.x)), true), [1], false), game_1[max_1(0, tile.y)].slice(max_1(0, tile.x) + 1, game_1[max_1(0, tile.y)].length), true);
+                    try {
+                        game_1[max_1(0, tile.y)] = __spreadArray(__spreadArray(__spreadArray([], game_1[max_1(0, tile.y)].slice(0, max_1(0, tile.x)), true), [1], false), game_1[max_1(0, tile.y)].slice(max_1(0, tile.x) + 1, game_1[max_1(0, tile.y)].length), true);
+                    }
+                    catch (e) {
+                        GAME_OVER_1 = true;
+                    }
                 });
                 game_1.forEach(function (row, y) {
                     row.forEach(function (tile, x) {
