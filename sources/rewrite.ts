@@ -1,3 +1,6 @@
 javascript: (function () {
-    globalThis.active = !globalThis.active;
+    "use strict";
+    if (typeof globalThis.active !== "boolean") {
+        
+    }
 })()
